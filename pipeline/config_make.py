@@ -1,0 +1,60 @@
+
+
+#for parag_run
+import configparser
+config = configparser.ConfigParser()
+config["SYNTHESIS_EXTRACTOR"] = {'symbols': ["−", "–", "-", "×", "−"],
+                                 'unit_list' : ["K min − 1", "A/cm2", "r/min", "mg/min", "mm/s", "g/l", "mJ/m2", "m/min", "mm/rev", "mg/cm2", "°C/min",
+                                                "mL/min", "m/s", "mm/min", "°C·min−1", "s−1", "min−1", "h−1","mmh−1","−1",
+                                                "mL", "vol%%", "L", "vol.%%", "ml",
+                                                "V", "eV", "Mpa", "MPa", "meV", "mA", "GPa", "Gpa", "keV", "W", "Pa", "kW", "F", "nA", "kV", "nA", "kPa",
+                                                "KHz", "HV", "Hz", "Kv", "mbar","kJ", "pJ", "mJ", "J","μm", "cm", "nm", "mm", "m",
+                                                "h", "days", "s−1", "s−1", "ms", "s", "min", "μs", "ns", "weeks", "hours", "minutes", "minute", "hour","ks",
+                                                "g", "g/L", "pct", "kg", "mg", "t","°C", "deg", "K", "℃", "∘C", "C", "°","mN", "kN", "N","mol","cycles"],
+                                 'replace_items' : [("vol . %%", "vol.%%"), ("s − 1", "s−1"), ("K min − 1", "K/min"), (" ° C ", " °C "),("Kmin − 1", "K/min"), ("° C", "°C")],
+                                 'ele_list' : ['Co','Al','Ni','Ti','Cr','Ge','Ta','Mo','Re','Nb','Mn','Si','Fe','Zr','Hf','Ru','Ir','La','Mg','Nd','Cu','Zn','W','S','P','N','C','B','Y','V'],
+                                 'units' : [" ",">","<","–","-","⩽",""],'key_rela_name':["nsubj","npsubj","obl","nmod","conj","compound"]}
+
+with open(r'C:\Users\Administrator\Desktop\wwr-files\web_code\test_files\dictionary.ini', 'w',encoding='utf-8') as configfile:
+    config.write(configfile)
+
+# for whole_run
+# import configparser
+# config = configparser.ConfigParser()
+# config["Dictionary"] = {'symbols': ["−", "–", "-", "×", "−"],
+#                         'unit_list' : ["K min − 1", "A/cm2", "r/min", "mg/min", "mm/s", "g/l", "mJ/m2", "m/min", "mm/rev", "mg/cm2", "°C/min",
+#                                                 "mL/min", "m/s", "mm/min", "°C·min−1", "s−1", "min−1", "h−1","mmh−1","−1",
+#                                                 "mL", "vol%%", "L", "vol.%%", "ml",
+#                                                 "V", "eV", "Mpa", "MPa", "meV", "mA", "GPa", "Gpa", "keV", "W", "Pa", "kW", "F", "nA", "kV", "nA", "kPa",
+#                                                 "KHz", "HV", "Hz", "Kv", "mbar","kJ", "pJ", "mJ", "J","μm", "cm", "nm", "mm", "m",
+#                                                 "h", "days", "s−1", "s−1", "ms", "s", "min", "μs", "ns", "weeks", "hours", "minutes", "minute", "hour","ks",
+#                                                 "g", "g/L", "pct", "kg", "mg", "t","°C", "deg", "K", "℃", "∘C", "C", "°","mN", "kN", "N","mol","cycles"],
+#                         'replace_items' : [("vol . %%", "vol.%%"), ("s − 1", "s−1"), ("K min − 1", "K/min"), (" ° C ", " °C "),("Kmin − 1", "K/min"), ("° C", "°C")],
+#                         'ele_list' : ['Co','Al','Ni','Ti','Cr','Ge','Ta','Mo','Re','Nb','Mn','Si','Fe','Zr','Hf','Ru','Ir','La','Mg','Nd','Cu','Zn','W','S','P','N','C','B','Y','V'],
+#                         'units' : [" ",">","<","–","-","⩽",""],
+#                         'key_rela_name' : ["nsubj","npsubj","obl","nmod","conj","compound"],
+#                         'paras_to_replace' : {'\s[0-9]+\s+C': ['\s+C', '°C'], '[0-9]+\s+°C': ['\s+', ''], '[0-9]+\s+K': ['\s+K', 'K'], '\s+±\s+': ['\s+', ''], '\s+–\s+': ['\s+', ''], '[0-9]+\s+g/cm3': ['\s+g/cm3', 'g/cm3'], '\d\s+%': ['\s+%', '%'],'\d\s?K\s?\(\d+\s?\°C\)':['\(\d+\s?\°C\)',''],'\d\s?°C\s?\(\d+\s?K\)':['\(\d+\s?K\)','']},
+#                         'replace_word' : {'Fig .': 'fig ', 'Fig.': 'fig', 'fig.': 'fig', 'et al.': 'et al', '℃': '°C', '˚C': '°C', 'g cm−3': 'g/cm3', 'gm/cc': 'g/cm3', 'g cm3': 'g/cm3', '–': '-', 'L12': 'γ′', 'incipient melting': 'incipient-melting', "γ'": 'γ′', 'gamma prime': 'γ′', '™': 'TM', '<': '＜', '>': '＞', '＞ ': '＞', ' ＜': '＜', 'solution heat': 'solution-heat','Co3 ( Al , W )':'γ′','h.':'h .','Co3(Al,W)':'γ′'},
+#                         'alloy_to_replace' : {'\s([A-Z]+[a-z]*\s+[A-Z]*[0-9]{2,}[A-Z]*)\s': ['\s+', '~'], '\s([A-Z][a-z]?[0-9]{0,2}\.?[0-9]{0,2}\s+[A-Z][a-z]?\S*)\s': ['\s+', ''], '\s([A-Z]+[a-z]{1,}\s+[A-Z]+\-?[0-9]+)\s': ['\s+', '~'],'\s([A-Z]+[a-z]{1,}\s+\d+\-?\d*[A-Za-z]+)\s': ['\s+', '~'],'\s([0-9]+\.?[0-9]*\s+[A-Z][a-z]?)\s': ['\s+', '']},
+#                         'alloy_writing_type' : ['^[0-9]+\.?[0-9]{0,2}[A-JL-Z]', '[0-9]{0,2}\.?[0-9]{0,2}[A-Z][a-z]?\-[0-9]{0,2}\.?[0-9]{0,2}[A-Z][a-z]?', '^[A-Z]+[a-z]*\-[0-9]\w*', '^[A-Z]\S+[0-9]$', '^[A-Z]+[0-9]+[A-z]+', '^[A-Z]+[a-z]*\~[A-Z0-9]+'],
+#                         'alloy_abbre_type' : ['^[0-9]+\.?[0-9]{0,2}[A-JL-Z]'],
+#                         'alloy_blank_type' : ['\s([0-9A-Z]+\w*)\s+\S*[Aa]lloy\s', '\s+\S*[Aa]lloy\s+([0-9A-Z]+\w*)\s'],
+#                         'prop_writing_type' : {'solidus': ['Tsolidus', 'Solidus', 'solidus'], 'solvus': ['γ′-solvus', 'γ′Solvus', 'solvus','Solvus', 'γ′-transus', 'Tγ′', 'solvus-temperature', '-solvus'], 'density': ['density','Density', 'densities', 'densityρ', 'pO-'], 'liquidus': ['liquidus', 'Liquidus', 'Tlq', 'liquidous', 'liquidusus']},
+#                         'value_wt' : {'solidus': ['^\W{0,1}[7-9][0-9]{2}(\.[0-9]{1,2})?\S*°C$', '^\W{0,1}[7-9][0-9]{2}(\.[0-9]{1,2})?\S*K$', '^\W{0,1}1[0-6][0-9]{2}\S*°C$', '^\W{0,1}1[0-6][0-9]{2}\S*K$'], 'solvus': ['^\W{0,1}[7-9][0-9]{2}(\.[0-9]{1,2})?\S*°C$', '^\W{0,1}[7-9][0-9]{2}(\.[0-9]{1,2})?\S*K$', '^\W{0,1}1[0-6][0-9]{2}\S*°C$', '^\W{0,1}1[0-6][0-9]{2}\S*K$'], 'density': ['^\W?[4-9](\.[0-9]{1,2})?\S*g/cm3|^\W?1[0,1](\.[0-9]{1,2})?\S*g/cm3'], 'liquidus': ['^\W{0,1}[7-9][0-9]{2}(\.[0-9]{1,2})?\S*°C$', '^\W{0,1}[7-9][0-9]{2}(\.[0-9]{1,2})?\S*K$', '^\W{0,1}1[0-6][0-9]{2}\S*°C$', '^\W{0,1}1[0-6][0-9]{2}\S*K$']},
+#                         'unit_replace' : {'solidus': ['°C', 'K'], 'solvus': ['°C', 'K'], 'density': ['g/cm3'], 'liquidus': ['°C', 'K']},
+#                         'no_unit_para' : {'solvus': ['^\W{0,1}[7-9][0-9]\S*\d$', '^\W{0,1}1[0-6][0-9]\S*\d$'], 'solidus': ['^\W{0,1}[7-9][0-9]\S*\d$', '^\W{0,1}1[0-6][0-9]\S*\d$'], 'density': ['^\W?[4-9]\.[0-9]{1,2}(\S\d\.\d{2})?$|^\W?1[0,1]\.[0-9]{1,2}(\S\d\.\d{2})?$'], 'liquidus' : ['^\W{0,1}[7-9][0-9]\S*\d$', '^\W{0,1}1[0-6][0-9]\S*\d$']},
+#                         'other_quality' : {'solvus': ['γ′-solution', 'solution', 'solutioning', 'solidus', 'Tsolidus', 'Solidus', 'liquidus', 'Liquidus', 'Tlq', 'liquidous', 'liquidusus', 'incipient', 'age', 'aged', 'aging', 'solution-heat', 'ageing', 'homogenized', 'homogenization', 'heat-treated', 'super-solvus', 'sub-solvus', 'γ″', 'solidification', 'eutectic', 'solubility', 'annealing', 'annealed', 'anneal', 'deformed', 'melting', 'incipient-melting','supersolvus','heat','heated'], 'solidus': ['γ′-solution', 'solution', 'solutioning', 'solvus', 'γ′-transus', 'liquidus', 'Liquidus', 'Tlq', 'liquidous', 'liquidusus', 'incipient', 'age', 'aged', 'aging', 'solution-heat', 'ageing', 'homogenized', 'homogenization', 'heat-treated', 'super-solvus', 'sub-solvus', 'γ″', 'solidification', 'eutectic', 'solubility', 'annealing', 'annealed', 'anneal', 'deformed', 'melting', 'incipient-melting','supersolvus','heat','heated'], 'density': [], 'liquidus': ['Tsolidus', 'Solidus', 'γ′-solution', 'solution', 'solutioning', 'solidus', 'incipient', 'γ′-solvus', 'γ′Solvus', 'solvus', 'γ′-transus', 'Tγ′', 'solvus-temperature', 'dissolution', 'age', 'aged', 'aging', 'solution-heat', 'ageing', 'homogenized', 'homogenization', 'heat-treated', 'super-solvus', 'sub-solvus', 'γ″', 'solidification', 'eutectic', 'solubility', 'annealing', 'annealed', 'anneal', 'deformed', 'melting', 'incipient-melting','supersolvus','heat','heated']},
+#                         'table_alloy_to_replace' : {'\s([A-Z]+[a-z]*\s+[A-Z]*[0-9]{2,}[A-Z]*)\s': ['\s+', '~'], '\s([A-Z][a-z]?[0-9]{0,2}\.?[0-9]{0,2}\s+[A-Z][a-z]?\S*)\s': ['\s+', ''], '\s([A-Z]+[a-z]{1,}\s+[A-Z]+\-?[0-9]+)\s': ['\s+', '~'],'\s([A-Z]+[a-z]{1,}\s+\d+\-?\d*[A-Za-z]+)\s': ['\s+', '~'],'\s([0-9]+\.?[0-9]*\s+[A-Z][a-z]?)\s': ['s+', '']},
+#                         'table_prop_pattern' : {'solidus': ['Tsolidus', 'Solidus', 'solidus'], 'solvus': ['γ′-solvus', 'γ′Solvus', 'solvus','Solvus', 'γ′-transus', 'Tγ′', 'solvus-temperature', '-solvus'], 'density': ['density','Density', 'densities', 'densityρ', 'pO-'], 'liquidus': ['liquidus', 'Liquidus', 'Tlq', 'liquidous', 'liquidusus'],'age': ['ageing','aged','aged treatment','aging treatment','aged heat treatment','ageing heat treatment','aging heat treatment','heat treatment'],'solution': ['solution','solutioning','solutioned','solution treatment','solutioning treatment','solutioned heat treatment','solution heat treatment','solutioning heat treatment','homogenization','heat treatment']},
+#                         'table_prop_pattern_words' : {'solvus': ['T', 'gamma', 'prime'],'solidus': ['solidus'],'liquidus': ['liquidus'],'density': ['density'],'age': ['ageing','aged','aged treatment','aging treatment','aged heat treatment','ageing heat treatment','aging heat treatment,treatment','heat treatment','heat treatments','heat-treatment'],'solution': ['solutioning','solutioned','solution treatment','solutioning treatment','solutioned heat treatment','solution heat treatment','solutioning heat treatment','heat treatment','heat treatments','heat-treatment','homogenization']},
+#                         'table_e_pattern' : '^[A-Z][a-z]?$|[Cc]hromium|[Nn]ickel|[Mm]olybdenum|[Vv]anadium|[Aa]luminum|[Tt]itanium|[Bb]oron|[Cc]arbon|[Ii]ron|[Mm]anganese|[Ss]ilicon|[Pp]hosphorus|[Ss]ulfur|[Tt]ungsten|[Gg]ermanium|[Rr]henium|[Nn]iobium|[Ii]ron|[Pp]ickaxe|[Hh]afnium|[Rr]uthenium|[Ii]ridium|[Yy]ttrium|[Pp]hosphorus|[Ss]ulphur|[Pp]latinum',
+#                         'table_ratio_pattern' : '[A-Za-z]+\.?.?\%|weight\.?.?\%|atom\.?.?\%|[Aa]t\.?.?[Pp]ct|[Ww]t\.?.?[Pp]ct|[Aa]tomic\.?.?[Pp]ercent|[Ww]eight\.?.?[Pp]ercent',
+#                         'table_units' : ['GPa', 'MPa', 'kPa' 'Pa', 'mPa', '%','km', 'm', 'cm', 'mm', 'µm', 'nm', 'um', 'kg', 'g', 'gr' 'mg','hr', 'h', 'sec', 's','°', '°C', 'F', 'degC', 'ppm'],
+#                         'ele_list' : ['Co','Al','W','Ni','Ti','Cr','Ge','Ta','B','Mo','Re','Nb','Mn','Si','V','Fe','Zr','Hf','Ru','Ir','La','Y','Mg','C'],
+#                         'table_number_pattern' : {'solvus': '^\D{0,1}[0-9]{3,4}', 'density': '^\W{0,1}\d+', 'solidus': '^\D{0,1}[0-9]{3,4}','liquidus': '^\D{0,1}[0-9]{3,4}','age': '^\D{0,1}[0-9]{3,4}','solution': '^\D{0,1}[0-9]{3,4}'},
+#                         'table_unit_pattern_text' : {'solvus': "°C|K",'density': '[Kk]g\/m3?|g\/cm3?|gm\/cm3?|g\s+cm\-?3?|kgm\s+\-?3?|[Kk]g\s+m\-?3?|[Kk]g\*m\-?3?|g\*cm\-?3?|gcm\-?3?|J\/mm3?|g\/cc|A\/dm2?|mA\/cm2?|g\/mL|mAcm\-?2?|[Mm]g\/m3?','solidus': '°C|K', 'liquidus': '°C|K','age': '°C|K','solution': '°C|K'},
+#                         'unit_pattern_table' : {'solvus': '°C|degC|\(K\)', 'density': '[Kk]g\/m3?|g\/cm3?|gm\/cm3?|g\s+cm\-?3?|kgm\s+\-?3?|[Kk]g\s+m\-?3?|[Kk]g\*m\-?3?|g\*cm\-?3?|gcm\-?3?|J\/mm3?|g\/cc|A\/dm2?|mA\/cm2?|g\/mL|mAcm\-?2?|[Mm]g\/m3?', 'solidus': '°C|degC|\(K\)', 'liquidus': '°C|degC|\(K\)','age': '°C|degC|\(K\)|K','solution': '°C|degC|\(K\)|K'},
+#                         'ele_to_abr' : {'Chromium': 'Cr','Nickel': 'Ni','Molybdenum': 'Mo','Vanadium': 'V','Aluminum': 'Al','Titanium': 'Ti','Boron': 'B','Carbon': 'C','Iron': 'Fe','Manganese': 'Mg','Silicon': 'Si','Phosphorus': 'P','Sulfur': 'S','Tungsten': 'W','Germanium': 'Ge','Rhenium': 'Re','Niobium': 'Nb','Pickaxe': 'Zr','Hafnium': 'Hf','Ruthenium': 'Ru','Iridium': 'Ir','Yttrium':'Y','Platinum':'Pt'}
+#                         }
+# with open(r'C:\Users\Administrator\Desktop\wwr-files\web_code\test_files\all_dictionary.ini', 'w',encoding='utf-8') as configfile:
+#     config.write(configfile)
