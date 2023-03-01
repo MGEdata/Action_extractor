@@ -8,7 +8,6 @@
 ----------------------
 A semi-supervised text mining method was proposed to capture alloy synthesis and processing insights. Taking experimental procedure extraction of superalloys as a scenario, the actions sequence with the corresponding parameters in synthesis and processing corpus to reflect the detail fabrication procedure have been successfully extracted. In particular, a semi-supervised recommendation algorithm for token-level action and a multi-level bootstrapping algorithm for chunk-level actions are developed for small corpus with few annotations, which only require a small number of seeds to start the learning process. In total, a dataset with 9853 instances covering chemical compositions and actions was automatically extracted from a corpus of 16604 articles from Elsevier and other publishers.
  
-This package is released under MIT License, please see the LICENSE file for details.
 
 **Features**
 ----------------------
