@@ -15,7 +15,7 @@ model = fasttext.train_unsupervised(input=r'.\all_text.txt',model="skipgram", lr
 model.save_model(text_path)
 
 # model的调用代码
-# model = fasttext.load_model(r"E:\fasttext\model\ft_1.bin")
+# model = fasttext.load_model(r".\ft_2.bin")
 # wv_1 = model.get_word_vector("sample").reshape(1,-1)
 # wv_2 = model.get_word_vector("specimen").reshape(1,-1)
 # sim = cosine_similarity(wv_1, wv_2)
