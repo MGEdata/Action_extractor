@@ -27,9 +27,6 @@ def tokenize_text(text):
     tokens = []
     for sent in nltk.sent_tokenize(text):
         for word in nltk.word_tokenize(sent):
-            # 这里原先将长度小于2的字符串删除了
-            # if len(word) < 2:
-            #     continue
             tokens.append(word)
     return tokens
 
@@ -115,26 +112,9 @@ results = dict()
 
 for index in range(1,11,1):
     to = list()
-    accuracy, score = get_accuracy_f1(r"D:\Git\all_code\technology_extraction\paragraph_classify\file/2rd_add_shuff.csv",index)
+    accuracy, score = get_accuracy_f1(r"./2rd_add_shuff.csv",index)
     to.append(accuracy)
     to.append(score)
     results[index] = tuple(to)
 
-
-
-# model_dbow = Doc2Vec(dm=0, vector_size=300, negative=5, hs=0, min_count=2, sample = 0, workers=cores)
-# model_dbow.build_vocab([x for x in tqdm(train_tagged.values)])
-# # 以下进行
-# for epoch in range(40):
-#     model_dbow.train(utils.shuffle([x for x in tqdm(train_tagged.values)]), total_examples=len(train_tagged.values), epochs=1)
-#     model_dbow.alpha -= 0.002   #学习率
-#     model_dbow.min_alpha = model_dbow.alpha
-
-# model_dmm = Doc2Vec(dm=1, dm_mean=1, vector_size=300, window=10, negative=5, min_count=1, workers=5, alpha=0.065, min_alpha=0.065)
-# model_dmm.build_vocab([x for x in tqdm(train_tagged.values)])
-# for epoch in range(30):
-#     model_dmm.train(utils.shuffle([x for x in tqdm(train_tagged.values)]), total_examples=len(train_tagged.values), epochs=1)#打乱各个自然段的顺序
-#     model_dmm.alpha -= 0.002
-#     model_dmm.min_alpha = model_dmm.alpha
-# new_model = ConcatenatedDoc2Vec([model_dbow, model_dmm])
 
