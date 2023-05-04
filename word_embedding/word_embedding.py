@@ -1,5 +1,3 @@
-
-
 from gensim.models import word2vec
 import logging
 
@@ -12,7 +10,7 @@ import fasttext
 from sklearn.metrics.pairwise import cosine_similarity
 
 # model的训练代码
-text_path = r"E:\fasttext\model\ft_2.bin"
+text_path = r".\ft_2.bin"
 model = fasttext.train_unsupervised(input=r'.\all_text.txt',model="skipgram", lr=0.05, dim=100,epoch=5, minCount=5, minn=3, maxn=8, wordNgrams=4,loss="ns")
 model.save_model(text_path)
 
