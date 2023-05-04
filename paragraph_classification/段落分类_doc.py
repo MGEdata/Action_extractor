@@ -25,9 +25,6 @@ def tokenize_text(text):
     tokens = []
     for sent in nltk.sent_tokenize(text):
         for word in nltk.word_tokenize(sent):
-            # 这里原先将长度小于2的字符串删除了
-            # if len(word) < 2:
-            #     continue
             tokens.append(word)
     return tokens
 
@@ -109,7 +106,7 @@ def get_accuracy_f1(lable_path):
     print('Testing accuracy %s' % accuracy_score(y_test, y_pred))
     print('Testing F1 score: {}'.format(f1_score(y_test, y_pred, average='weighted')))
 
-get_accuracy_f1(r"E:/文本挖掘/工作三-工艺抽取/段落分类/101段落标记分类/add_corpus/2rd_add_shuff.csv")
+get_accuracy_f1(r"./2rd_add_shuff.csv")
 
 
 #y_train, X_train = vec_for_learning(model_dbow, train_tagged)
