@@ -36,9 +36,6 @@ def tokenize_text(text):
     tokens = []
     for sent in nltk.sent_tokenize(text):
         for word in nltk.word_tokenize(sent):
-            # 这里原先将长度小于2的字符串删除了
-            # if len(word) < 2:
-            #     continue
             tokens.append(word)
     return tokens
 
@@ -170,15 +167,6 @@ def get_accuracy_f1(lable_path, bert_path, rs):
 
     log = LogisticRegression(max_iter=1000, class_weight='balanced').fit(X_train, y_train)
     predictions = log.predict_proba(X_test)
-    # plt.title('Receiver Operating Characteristic')
-    # plt.plot(false_positive_rate, recall, 'b', label='AUC = %0.2f' % roc_auc)
-    # plt.legend(loc='lower right')
-    # plt.plot([0, 1], [0, 1], 'r--')
-    # plt.xlim([0.0, 1.0])
-    # plt.ylim([0.0, 1.0])
-    # plt.ylabel('Recall')
-    # plt.xlabel('Fall-out')
-    # plt.show()
     y_pred = log.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
     score = f1_score(y_test, y_pred, average='weighted')
@@ -224,19 +212,16 @@ def predict_on_file(bert_path, label_path, target_excel, predict_results_path, m
     df = pd.DataFrame(pd.Series(outcome_1), columns=['y'])  # 将字典转化为dataframe的形式,第一列会变成索引列
     df = df.reset_index().rename(columns={'index': 'x'})
     train = df
-
     train_tagged = train.apply(
         lambda r: TaggedDocument(words=tokenize_text(r['x']), tags=[r.y]), axis=1)
     cores = multiprocessing.cpu_count()
-
-
     y_test, X_test = get_vectors(bert_path, train_tagged, doc_label)
     log = LogisticRegression(max_iter=1000, class_weight='balanced').fit(X_test, y_test)
-    joblib.dump(log, model_save_path)  # r'E:/文本挖掘/工作三-工艺抽取/段落分类/101段落标记分类/model/log_2.pkl'
+    joblib.dump(log, model_save_path) 
 
     # 利用本地向量进行预测
     import xlrd
-    new_data = xlrd.open_workbook(target_excel)  # r"E:/文本挖掘/工作三-工艺抽取/段落分类/101段落标记分类/test/elsevier.xlsx"
+    new_data = xlrd.open_workbook(target_excel) 
     sht = new_data.sheet_by_index(1)
     rows = sht.nrows
     col_0 = sht.col_values(0)
@@ -298,13 +283,13 @@ def predict_on_file(bert_path, label_path, target_excel, predict_results_path, m
         sht.cell(col_i, 2, tag)  # 写入表格的只能是字符型数据
         sht.cell(col_i, 4, str(pre_prob[col_i - 1]))
         col_i += 1
-    xls.save(predict_results_path)  # r'E:/文本挖掘/工作三-工艺抽取/段落分类/101段落标记分类/model\Elsevier.xlsx')
+    xls.save(predict_results_path)  
     # log_model = joblib.load(model_path)
 
 
-predict_on_file(r"/data/home/scv4785/run/wwr/text_classification/code/tfidf_out/model/bert_model",
-                r"/data/home/scv4785/run/wwr/text_classification/code/tfidf_out/label.csv",
-                r"/data/home/scv4785/run/wwr/text_classification/code/tfidf_out/all_paragraphs_predicted.xlsx",
-                r"/data/home/scv4785/run/wwr/text_classification/code/tfidf_out/bert_predict_results.xlsx",
-                r"/data/home/scv4785/run/wwr/text_classification/code/tfidf_out/model/bert_logist")
+predict_on_file(r"./model/bert_model",
+                r"./label.csv",
+                r"./all_paragraphs_predicted.xlsx",
+                r"./bert_predict_results.xlsx",
+                r"./model/bert_logist")
 
