@@ -612,7 +612,7 @@ def seeds_check(seeds,sentences):
 
 
 
-corpus_path = r".\corpus_lower_space_test.txt"
+corpus_path = r".\lower_corpus.txt"
 verb_data = candidate_verb(corpus_path)
 verb_lemma = word_lemma(verb_data)
 
