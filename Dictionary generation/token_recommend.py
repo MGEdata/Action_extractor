@@ -612,7 +612,7 @@ def seeds_check(seeds,sentences):
 
 
 
-corpus_path = r"D:\Git\Action_extractor\Action_extractor-main\running_files\fasttext_corpus_lower_space_test.txt"
+corpus_path = r".\corpus_lower_space_test.txt"
 verb_data = candidate_verb(corpus_path)
 verb_lemma = word_lemma(verb_data)
 
@@ -623,13 +623,13 @@ sentences_tag = dict()
 for sent in tqdm(sentences):
     sentences_tag[sent] = nltk.pos_tag(nltk.word_tokenize(sent))
 
-with open(r"D:\Git\Action_extractor\Action_extractor-main\running_files\start_seeds.txt","r",encoding="utf-8") as file:
+with open(r".\start_seeds.txt","r",encoding="utf-8") as file:
     start_seeds = file.readlines()
     start_seeds = [seed.strip('\n') for seed in start_seeds]
 to_run,not_in_sents = seeds_check(start_seeds,sentences)
 
-word2vec_path = r"D:\Git\Action_extractor\Action_extractor-main\running_files/ft_4.bin"
-fasttex_path = r"D:\Git\Action_extractor\Action_extractor-main\running_files/ft_2.bin"
+word2vec_path = r"./word2vec.bin"
+fasttex_path = r"./fasttext.bin"
 log_p = r"/log"
 c_path = r"dictionary.ini"
 
@@ -640,7 +640,7 @@ if to_run:
                                                                       bef_existed=Dictionary(c_path).bef_existed, sentences_tag=sentences_tag,
                                                                       log_path=log_p,verb_lemma=verb_lemma)
 
-    with open(r'D:\Git\Action_extractor\Action_extractor-main\running_files\middle/results.json','w', encoding='utf8')as fo:
+    with open(r'output/results.json','w', encoding='utf8')as fo:
         fo.write(str(all_recommed_results))
 
 
