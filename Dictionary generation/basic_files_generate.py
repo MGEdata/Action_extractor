@@ -20,7 +20,7 @@ def sent_constituent_parsing(sent,java_path,stanford_parser_path,stanford_model_
     return parsing_result
 
 
-# 将所有语料进行分句重组、小写处理、句法解析
+# Reorganize all the corpus into clauses, lowercase processing, and syntactic parsing
 class Basic_file:
     """
     parags_path: xlsx file contain positive paragraph in first column, article DOI in second column;
@@ -97,13 +97,13 @@ class Basic_file:
 
 
 
-parags_path = r"D:\Git\Action_extractor\Action_extractor-main\running_files\run_test\positive_paragraphs.xlsx"
-reorg_save_path = r'D:\Git\Action_extractor\Action_extractor-main\running_files\run_test\reorg_sents.xlsx'
-lower_save_path = r'D:\Git\Action_extractor\Action_extractor-main\running_files\run_test\lower_corpus.txt'
-java_path = r"D:/jre1.8.0_321/bin/java.exe"
-stanford_parser_path = r"D:/stanford-parser-full-2020-11-17/stanford-parser.jar"
-stanford_model_path = r"D:/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
-parsing_save_path = r"D:\Git\Action_extractor\Action_extractor-main\running_files\run_test\parsing_results.json"
+parags_path = r".\positive_paragraphs.xlsx"
+reorg_save_path = r'.\reorg_sents.xlsx'
+lower_save_path = r'.\lower_corpus.txt'
+java_path = r"./jre1.8.0_321/bin/java.exe"
+stanford_parser_path = r"./stanford-parser-full-2020-11-17/stanford-parser.jar"
+stanford_model_path = r"./stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
+parsing_save_path = r".\parsing_results.json"
 c_path = r"dictionary.ini"
 
 bf = Basic_file(parags_path, reorg_save_path, lower_save_path, java_path, stanford_parser_path,
