@@ -19,13 +19,11 @@ from dictionary import Dictionary
 
 dict_info = Dictionary(r"dictionary.ini")
 aft_rule = dict_info.aft_rule
-# aft_rule = {"^(VBD\sVB[DN]\sIN)\sIN":4,"^VBD\sVB[DN]":2,"^VBD\sRB\sVB[DN]":3}
-# be carried out,was made,
 bef_rule = dict_info.aft_rule
-# bef_rule = {"NN\sVB.*$":2,"VB[DGN]\sIN$":2,"VB[DGN]\sTO$":2,"IN\sNN.*\sIN$":3}#,"VBG$":1,"IN$":1
-# Following,prepared by,by method of
 chunk_limit = dict_info.aft_rule
-# chunk_limit = ["°C",'h','K']
+chunk_limit = dict_info.aft_rule
+symbols = dict_info.symbols
+unit_list = dict_info.unit_list
 
 def corpus_preprocess(sentences):
     new_sents = list()
@@ -298,23 +296,6 @@ def extraction_pattern_score(parsing_results,bef_pattern,aft_pattern,seeds,bef_p
     return bef_pattern_score, aft_pattern_score
 
 from pattern.en import tag
-
-symbols = ["−", "–", "-", "×", "−", '±']
-unit_list = ["K min − 1", "A/cm2", "r/min", "mg/min", "mm/s", "g/l", "mJ/m2", "m/min", "mm/rev", "mg/cm2", "°C/min",
-             "mL/min", "m/s", "mm/min", "°C·min−1", "s−1",
-             "mL", "vol%", "L", "vol.%", "ml",
-             "V", "eV", "Mpa", "MPa", "meV", "mA", "GPa", "Gpa", "keV", "W", "Pa", "kW", "F", "nA", "kV", "nA", "kPa",
-             "KHz", "HV", "Hz", "Kv", "mbar",
-             "kJ", "pJ", "mJ", "J",
-             "μm", "cm", "nm", "mm", "m",
-             "h", "days", "s−1", "s−1", "ms", "s", "min", "μs", "ns", "weeks", "hours", "minutes", "minute", "hour",
-             "ks",
-             "g", "g/L", "pct", "kg", "mg", "t",
-             "°C", "deg", "K", "℃", "∘C", "C", "°",
-             "mN", "kN", "N",
-             "mol",
-             "cycles"]
-
 
 def sent_unit_parsing(sent, unit_list, symbols):
     all_unit_chunks = list()
@@ -637,12 +618,12 @@ def get_hightest_np(np_score,number,reject_np,tokens):
 
 
 
-seeds = seed_read(r"D:\Git\Action_extractor\Action_extractor-main\running_files\start_seeds.xlsx")
-# sentences = sentences_read(r"...\reorg_sents.xlsx")
-java_path = r".../jre1.8.0_321/bin/java.exe"
-stanford_parser_path = r".../stanford-parser-full-2020-11-17/stanford-parser.jar"
-stanford_model_path = r".../stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
-output_path = r"...\sent_pos_results.json"
+seeds = seed_read(r".\start_seeds.xlsx")
+# sentences = sentences_read(r".\reorg_sents.xlsx")
+java_path = r"./jre1.8.0_321/bin/java.exe"
+stanford_parser_path = r"./stanford-parser-full-2020-11-17/stanford-parser.jar"
+stanford_model_path = r"./stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
+output_path = r"./sent_pos_results.json"
 
 with open(output_path, "r", encoding='utf-8') as f:
     parsing_results = json.load(f)
