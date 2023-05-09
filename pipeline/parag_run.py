@@ -594,7 +594,7 @@ def link_compare(sent, no_unit_chunk, r_units_chunks, unit_list):
     new_chunk = None
     new_unit = None
     new_chunk_output = None
-    true_words = [",", "and", "to", ", and"]
+    true_words = [",", "and", "to", ", and",", or"]
     for r_unit_chunk in r_units_chunks:
         unit = unit_part(r_unit_chunk, unit_list)
         if unit:
