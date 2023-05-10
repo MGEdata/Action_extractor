@@ -71,21 +71,26 @@ def process(sents):
             else:
                 toks[-1] += [tok]
     for i, tok in enumerate(toks):
-        if is_number(tok[0].text):  # Number.
+        if isinstance(tok[0],str):
+            f_text = tok[0]
+        else:
+            f_text = tok[0].text
+        if is_number(f_text):  # Number.
         # Replace all numbers with <nUm>, except if it is a crystal direction (e.g. "(111)").
             try:
                 if tokens[i - 1] == "(" and tokens[i + 1] == ")" \
                         or tokens[i - 1] == "〈" and tokens[i + 1] == "〉":
-                    tok = tok[0].text
+                    tok = f_text
                 else:
                     tok = "<nUm>"
             except IndexError:
                 tok = "<nUm>"
         else:
-            tok = tok[0].text
+            tok = f_text
         processed.append(tok)
     new_sent = " ".join(processed)
     return new_sent
+
 
 
 with open(r"./ori.txt", "r",encoding="utf-8",) as ori_file:
