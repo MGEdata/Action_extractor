@@ -457,7 +457,7 @@ def sim_filter(word2vec_path, fasttext_path,seeds, recommed_words, max_iteration
         fasttext_to_words = list()
         for seed in tqdm(seeds):
             sims_unique_words = list()
-            if seed in model.wv.index2word:
+            if seed in model.wv.index_to_key:
                 seed_sims = word2vec_sim_filter(model, seed, sim_level)
                 for w_s in seed_sims:
                     word_s = w_s.replace(",", "")
