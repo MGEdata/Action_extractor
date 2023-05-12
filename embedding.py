@@ -113,12 +113,12 @@ import fasttext
 from sklearn.metrics.pairwise import cosine_similarity
 
 # model的训练代码
-text_path = r".\ft_2.bin"
+text_path = r".\ft_2.bin" # English path
 model = fasttext.train_unsupervised(input=r"./reorg.txt",model="skipgram", lr=0.05, dim=100,epoch=5, minCount=5, minn=3, maxn=8, wordNgrams=4,loss="ns")
 model.save_model(text_path)
 
 # model的调用代码
-# model = fasttext.load_model(r"E:\fasttext\model\ft_1.bin")
+# model = fasttext.load_model(r".\ft_1.bin")
 # wv_1 = model.get_word_vector("sample").reshape(1,-1)
 # wv_2 = model.get_word_vector("specimen").reshape(1,-1)
 # sim = cosine_similarity(wv_1, wv_2)
