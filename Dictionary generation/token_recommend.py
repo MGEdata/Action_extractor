@@ -629,7 +629,7 @@ with open(r".\start_seeds.txt","r",encoding="utf-8") as file:
 to_run,not_in_sents = seeds_check(start_seeds,sentences)
 
 word2vec_path = r"./word2vec.bin"
-fasttex_path = r"./fasttext.bin"
+fasttex_path = r"./fasttext.bin" # English path
 log_p = r"/log"
 c_path = r"dictionary.ini"
 
