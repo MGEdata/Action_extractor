@@ -44,12 +44,9 @@ def seed_read(seed_path):
     return lower_seeds
 
 def sentences_read(sentence_path):
-    lower_chunks = list()
-    xls_sp = xlrd.open_workbook(sentence_path)
-    sht_sp = xls_sp.sheet_by_index(0)
-    cols_sp = sht_sp.col_values(0)
-    sents = list(set(cols_sp))
-    return sents
+    with open(sentence_path, mode='r', encoding='utf8') as fp:
+        sentences = fp.readlines()
+    return sentences
 
 def seed_chunk_compare(seed,chunk):
     # When the head or tail of a noun phrase in the corpus is equal to seed, we consider that it meets our requirements and its context can be involved in the pattern extraction
@@ -619,14 +616,14 @@ def get_hightest_np(np_score,number,reject_np,tokens):
 
 
 seeds = seed_read(r".\start_seeds.xlsx")
-# sentences = sentences_read(r".\reorg_sents.xlsx")
+sentences = sentences_read(r".\reorg_corpus_new.txt")
 java_path = r"./jre1.8.0_321/bin/java.exe"
 stanford_parser_path = r"./stanford-parser-full-2020-11-17/stanford-parser.jar"
 stanford_model_path = r"./stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
 output_path = r"./sent_pos_results.json"
-
-with open(output_path, "r", encoding='utf-8') as f:
-    parsing_results = json.load(f)
+parsing_results = sent_constituent_parsing(sentences, java_path, stanford_parser_path, stanford_model_path,output_path)
+# with open(output_path, "r", encoding='utf-8') as f:
+#     parsing_results = json.load(f)
 iterations = 50
 func_bp = list()
 func_ap = list()
