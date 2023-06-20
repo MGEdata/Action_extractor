@@ -107,134 +107,126 @@ def parse_to_pattern(parsing_results,seeds,tokens):
 
     for sent,parsing in parsing_results.items():
         sent_words = list()
-        sent_pos = list()
         parsing = Tree.fromstring(parsing)
         for subtree in parsing.subtrees():
-            subtree_label = subtree.label()
-            tree_pos = subtree.pos()
-            if str(subtree_label) == "ROOT":
-                for word_pos in tree_pos:
+            if str(subtree.label()) == "ROOT":
+                for word_pos in subtree.pos():
                     if word_pos[1] != "DT" and word_pos[0] not in chunk_limit:
                         sent_words.append(word_pos[0])
-                        sent_pos.append(word_pos[1])
+
                 bef_p_log[" ".join(sent_words)] = list()
                 aft_p_log[" ".join(sent_words)] = list()
+            sent_ps.append(" ".join(sent_words))
 
     for seed in tqdm(seeds):
         for sent,parsing in parsing_results.items():
-
-            sent = sent.lower()
             sent_words = list()
             sent_pos = list()
             parsing = Tree.fromstring(parsing)
             for subtree in parsing.subtrees():
                 subtree_pos = list()
                 np_words = list()
-                subtree_label = subtree.label()
-                tree_pos = subtree.pos()
-                if str(subtree_label) == "ROOT":
-                    for word_pos in tree_pos:
+                if str(subtree.label()) == "ROOT":
+                    for word_pos in subtree.pos():
                         if word_pos[1] != "DT" and word_pos[0] not in chunk_limit:
                             sent_words.append(word_pos[0])
                             sent_pos.append(word_pos[1])
-                sent_ps.append(" ".join(sent_words))
+                # sent_ps.append(" ".join(sent_words))
                 check_tree = subtree_pos_check(subtree)
-                if str(subtree_label) == "NP" or str(subtree.label()) == "NML":
+                if str(subtree.label()) == "NP" or str(subtree.label()) == "NML":
                     if check_tree:
-                        for word_pos in tree_pos:
+                        for word_pos in subtree.pos():
                             if word_pos[1] != "DT" and word_pos[0] not in chunk_limit:
                                 np_words.append((word_pos[0].lower()))
                                 subtree_pos.append(word_pos[1])
                         if np_words and len(np_words) > 1:
                             for sub_i in range(len(sent_pos)):
-                                if sub_i+len(np_words)-1 < len(sent_words)-1:
-                                    check_words = sent_words[sub_i:sub_i+len(np_words)]
-                                    if np_words == check_words:
-                                        if sent_pos[sub_i + len(np_words)-1] == "NN":
-                                            if sent_pos[sub_i + len(np_words)] == "VBG" or sent_pos[sub_i + len(np_words)] == "NN" or sent_pos[sub_i + len(np_words)] == "VBN" or sent_words[sub_i + len(np_words)].endswith("ing") or sent_words[sub_i + len(np_words)].endswith("ed"):
-                                                if sent_words[sub_i + len(np_words)] in tokens:
-                                                    np_words.append(sent_words[sub_i + len(np_words)])
-                                                    break
-                        if len(np_words) == 1:
-
-                            for sub_i in range(len(sent_pos)):
-                                if sub_i + len(np_words) - 1 < len(sent_words) - 1:
-                                    check_words = sent_words[sub_i:sub_i + len(np_words)]
-                                    if np_words == check_words:
-
-                                        if sent_pos[sub_i + len(np_words)] == "VBN" or sent_pos[sub_i + len(np_words)] == "VBG" or sent_words[sub_i + len(np_words)].endswith("ed") or sent_words[sub_i + len(np_words)].endswith("ing"):
-
+                                if sub_i+len(np_words)-1 < len(sent_words)-1 and sent_words[sub_i:sub_i+len(np_words)] == np_words and sent_pos[sub_i + len(np_words)-1] == "NN":
+                                    # check_words = sent_words[sub_i:sub_i+len(np_words)]
+                                    # if np_words == check_words:
+                                    # if sent_pos[sub_i + len(np_words)-1] == "NN":
+                                    if sent_pos[sub_i + len(np_words)] == "VBG" or sent_pos[sub_i + len(np_words)] == "NN" or sent_pos[sub_i + len(np_words)] == "VBN" or sent_words[sub_i + len(np_words)].endswith("ing") or sent_words[sub_i + len(np_words)].endswith("ed"):
+                                        if sent_words[sub_i + len(np_words)] in tokens:
                                             np_words.append(sent_words[sub_i + len(np_words)])
-                                            new_chunk = "-".join(np_words)
+                                            break
+                        elif len(np_words) == 1:
+                            for sub_i in range(len(sent_pos)):
+                                if sub_i + len(np_words) - 1 < len(sent_words) - 1 and sent_words[sub_i:sub_i + len(np_words)] == np_words:
+                                    # check_words = sent_words[sub_i:sub_i + len(np_words)]
+                                    # if np_words == check_words:
+                                    if sent_pos[sub_i + len(np_words)] == "VBN" or sent_pos[sub_i + len(np_words)] == "VBG" or sent_words[sub_i + len(np_words)].endswith("ed") or sent_words[sub_i + len(np_words)].endswith("ing"):
+                                        np_words.append(sent_words[sub_i + len(np_words)])
+                                        new_chunk = "-".join(np_words)
+                                        if sub_i + len(np_words) < len(sent_words):
                                             if new_chunk in tokens or sent_words[sub_i + len(np_words)] in tokens:
-
                                                 break
                                             else:
                                                 np_words.remove(sent_words[sub_i + len(np_words) - 1])
-                                        if sent_pos[sub_i + len(np_words)] == "NN":
-                                            np_words.append(sent_words[sub_i + len(np_words)])
-                        if np_words:
-                            chunks = " ".join(np_words)
-                            check_same = seed_chunk_compare(seed, chunks)
-                            if check_same:
-                                len_seed = len(np_words)
-                                len_words = len(sent_words)
-                                for sub_i in range(len_words):
-                                    if sent_words[sub_i] == np_words[0]:
-                                        to_seed = sent_words[sub_i:sub_i + len_seed]
-                                        to_seed_w = " ".join(to_seed)
-                                        if to_seed_w.lower() == seed.lower():
-                                            bef_pos = list()
-                                            aft_pos = list()
-                                            bef_words = list()
-                                            aft_words = list()
-                                            for index in range(4):
-                                                if sub_i - index - 1 >= 0:
-                                                    bef_pos.insert(0, sent_pos[sub_i - index - 1])
-                                                    bef_words.insert(0, sent_words[sub_i - index - 1])
-                                                if sub_i + len_seed - 1 + index + 1 < len_words:
-                                                    aft_pos.append(sent_pos[sub_i + len_seed - 1 + index + 1])
-                                                    aft_words.append(sent_words[sub_i + len_seed - 1 + index + 1])
+                                    if sub_i + len(np_words) < len(sent_words) and sent_pos[sub_i + len(np_words)] == "NN":
+                                        # if sent_pos[sub_i + len(np_words)] == "NN":
+                                        np_words.append(sent_words[sub_i + len(np_words)])
+                        if np_words and seed_chunk_compare(seed, " ".join(np_words)):
+                            # chunks = " ".join(np_words)
+                            # check_same = seed_chunk_compare(seed, " ".join(np_words))
+                            # if seed_chunk_compare(seed, " ".join(np_words)):
+                            # len_seed = len(np_words)
+                            # len_words = len(sent_words)
+                            for sub_i in range(len(sent_words)):
+                                if sent_words[sub_i] == np_words[0]:
+                                    # to_seed = sent_words[sub_i:sub_i + len(np_words)]
+                                    to_seed_w = " ".join(sent_words[sub_i:sub_i + len(np_words)])
+                                    if to_seed_w.lower() == seed.lower():
+                                        bef_pos = list()
+                                        aft_pos = list()
+                                        bef_words = list()
+                                        aft_words = list()
+                                        for index in range(4):
+                                            if sub_i - index - 1 >= 0:
+                                                bef_pos.insert(0, sent_pos[sub_i - index - 1])
+                                                bef_words.insert(0, sent_words[sub_i - index - 1])
+                                            if sub_i + len(np_words) - 1 + index + 1 < len(sent_words):
+                                                aft_pos.append(sent_pos[sub_i + len(np_words) - 1 + index + 1])
+                                                aft_words.append(sent_words[sub_i + len(np_words) - 1 + index + 1])
 
-                                            if bef_pos:
-                                                bef_chunk_str = " ".join(bef_pos)
-                                                for b_r, l in bef_rule.items():
-                                                    check = re.findall(b_r, bef_chunk_str)
-                                                    if len(bef_words) > (l+2):
-                                                        if bef_words[-l-1] == "-":
-                                                            bef_words_window = " ".join(bef_words[-l-2:])
-                                                        else:
-                                                            bef_words_window = " ".join(bef_words[-l:])
+                                        if bef_pos:
+                                            # bef_chunk_str = " ".join(bef_pos)
+                                            for b_r, l in bef_rule.items():
+                                                check = re.findall(b_r, " ".join(bef_pos))
+                                                if len(bef_words) > (l+2):
+                                                    if bef_words[-l-1] == "-":
+                                                        bef_words_window = " ".join(bef_words[-l-2:])
                                                     else:
                                                         bef_words_window = " ".join(bef_words[-l:])
-                                                    aft_pos_words = sent_pos[sub_i+len_seed]
-                                                    a_check = re.findall("JJ|VB", aft_pos_words)
-                                                    if check and not bef_words_window.endswith(seed) and not a_check:
-                                                        sent_p = " ".join(sent_words)
-                                                        bef_p_log[sent_p].append(bef_words_window.lower())
-                                                        bef_pattern.append(bef_words_window.lower())
-                                                        break
-                                            if aft_pos:
-                                                aft_chunk_str = " ".join(aft_pos)
-                                                for a_r, l in aft_rule.items():
-                                                    check = re.findall(a_r, aft_chunk_str)
-                                                    if len(aft_words) > (l+2):
-                                                        if aft_words[l+1] == "-":
-                                                            aft_words_window = " ".join(aft_words[:l+2])
-                                                        else:
-                                                            aft_words_window = " ".join(aft_words[:l])
+                                                else:
+                                                    bef_words_window = " ".join(bef_words[-l:])
+                                                aft_pos_words = sent_pos[sub_i+len(np_words)]
+                                                a_check = re.findall("JJ|VB", aft_pos_words)
+                                                if check and not bef_words_window.endswith(seed) and not a_check:
+                                                    sent_p = " ".join(sent_words)
+                                                    bef_p_log[sent_p].append(bef_words_window.lower())
+                                                    bef_pattern.append(bef_words_window.lower())
+                                                    break
+                                        if aft_pos:
+                                            # aft_chunk_str = " ".join(aft_pos)
+                                            for a_r, l in aft_rule.items():
+                                                check = re.findall(a_r, " ".join(aft_pos))
+                                                if len(aft_words) > (l+2):
+                                                    if aft_words[l+1] == "-":
+                                                        aft_words_window = " ".join(aft_words[:l+2])
                                                     else:
                                                         aft_words_window = " ".join(aft_words[:l])
-                                                    if check and not aft_words_window.startswith(seed):
-                                                        sent_p = " ".join(sent_words)
-                                                        aft_pattern.append(aft_words_window.lower())
-                                                        aft_p_log[sent_p].append(aft_words_window.lower())
-                                                        break
+                                                else:
+                                                    aft_words_window = " ".join(aft_words[:l])
+                                                if check and not aft_words_window.startswith(seed):
+                                                    sent_p = " ".join(sent_words)
+                                                    aft_pattern.append(aft_words_window.lower())
+                                                    aft_p_log[sent_p].append(aft_words_window.lower())
+                                                    break
     sent_ps = list(set(sent_ps))
     bef_pattern = list(set(bef_pattern))
     aft_pattern = list(set(aft_pattern))
 
-    return bef_pattern, aft_pattern ,bef_p_log,aft_p_log,sent_ps
+    return bef_pattern, aft_pattern, bef_p_log, aft_p_log, sent_ps
 
 def extraction_pattern_score(parsing_results,bef_pattern,aft_pattern,seeds,bef_p_log,aft_p_log,sent_ps):
     bef_pattern_score_fi = dict()
