@@ -14,7 +14,8 @@ import openpyxl
 import unidecode
 from bs4 import BeautifulSoup
 from bson.objectid import (ObjectId)
-from gensim.models.deprecated import keyedvectors
+# from gensim.models.deprecated import keyedvectors
+from gensim.models.keyedvectors import KeyedVectors
 from scipy import stats
 from unidecode import unidecode_expect_nonascii
 from dictionary import Dictionary
