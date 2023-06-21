@@ -1773,21 +1773,3 @@ def run(xml_path,positive_parag,config_path,java_path,stanford_parser_path,stanf
 
 
 parsing_results = run(xml_path,positive_parag,config_path,java_path,stanford_parser_path,stanford_model_path,token_dict_path,chunk_dict_path,nlp_path,excel_save_path)
-to_visual = list()
-for sent,acts in parsing_results.items():
-    for act in acts:
-        one = list()
-        if "mat" in act.keys():
-            one.append(act["mat"])
-        else:
-            one.append(None)
-        if "action" in act.keys():
-            one.append(act["action"])
-        elif "attribute" in act.keys():
-            one.append(act["attribute"])
-        if "units" in act.keys():
-            one.append(act["units"])
-        else:
-            one.append(None)
-    if one:
-        to_visual.append(one)
