@@ -99,14 +99,14 @@ paras = Paragraph(all_paragraphs)
 sents = paras.sentences
 new_sents = ""
 for sent in tqdm(sents):
-    sent_ = process(sent)
+    sent_ = process(sent.text)
     new_sents += sent_
     new_sents += "\n"
 with open(r"./reorg.txt", "w+",encoding="utf-8",) as re_file:
     re_file.write(new_sents)
 
 sentences = word2vec.Text8Corpus(r"./reorg.txt") #经过句子开头字母小写处理的语料
-model = word2vec.Word2Vec(sentences, size=100, hs=1, min_count=1, window=5)
+model = word2vec.Word2Vec(sentences, vector_size=100, hs=1, min_count=1, window=5)
 model.save(r'.\ft_3.bin')
 
 import fasttext
