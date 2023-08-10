@@ -1742,18 +1742,18 @@ def positive_json(xlsx_path,json_path):
 
 from dictionary import Dictionary
 #
-java_path = r"C:\Program Files\Java\jre1.8.0_181\bin/java.exe"
-stanford_parser_path = r"C:\Users\Administrator\Desktop\wwr-files\code\files\stanford-parser.jar"
-stanford_model_path = r"C:\Users\Administrator\Desktop\wwr-files\code\files/stanford-parser-4.2.0-models.jar"
-nlp_path = r"C:\Users\Administrator\Desktop\wwr-files\code\stanford-corenlp-4.4.0"
-xml_path = r"C:\Users\Administrator\Desktop\wwr-files\web_code\test_files\xml"
-excel_save_path = r"C:\Users\Administrator\Desktop\wwr-files\web_code\mid_files\comps"
-config_path = r"C:\Users\Administrator\Desktop\wwr-files\web_code\test_files\dictionary.ini"
-token_dict_path = r'C:\Users\Administrator\Desktop\wwr-files\code\files\dict\tokens.json'
-chunk_dict_path = r"C:\Users\Administrator\Desktop\wwr-files\code\chunk_output\save-new\heads\recom\new\0_2_INNNIN_head_token_ori_two_add.json"
+java_path = r".\Java\jre1.8.0_181\bin/java.exe"
+stanford_parser_path = r".\stanford-parser.jar"
+stanford_model_path = r"./stanford-parser-4.2.0-models.jar"
+nlp_path = r".\stanford-corenlp-4.4.0"
+xml_path = r".\xml"
+excel_save_path = r".\tables"
+config_path = r".\dictionary.ini"
+token_dict_path = r'.\tokens.json'
+chunk_dict_path = r".\chunks.json"
 
-xlsx_path = r"D:\Git\Action_extractor\Action_extractor-main\running_files\positive_paragraphs.xlsx"
-json_path = r"D:\Git\Action_extractor\Action_extractor-main\running_files\ositive_parags.json"
+xlsx_path = r".\positive_paragraphs.xlsx"
+json_path = r".\ositive_parags.json"
 positive_json(xlsx_path,json_path)
 with open(json_path,'r',encoding='utf8')as fp_:
     positive_parag = json.load(fp_)
