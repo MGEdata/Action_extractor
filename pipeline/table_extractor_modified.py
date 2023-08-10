@@ -392,6 +392,7 @@ class TableExtractorModifiedtoalloy(object):
                 for j, r in enumerate(mat_trans_table[row_ind][(col_ind + 1):]):
                     attr = Attribute()
                     try:
+                        unit_regex = re.compile('\(.*?\)')
                         potential_units = unit_regex.search(r).group(0)[1:-1]
                         found_units = [u for u in self.list_of_units if u in potential_units]
                         if len(found_units) > 0:
