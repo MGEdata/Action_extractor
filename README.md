@@ -20,3 +20,8 @@ A semi-supervised text mining method was proposed to capture alloy synthesis and
 **License**
 ----------------------
 All source code is licensed under the MIT license.
+
+**Citation**
+----------------------
+If you find our work is helpful for your research, please cite the following paper:
+Wang W, Jiang X, Tian S, et al. Alloy synthesis and processing by semi-supervised text mining[J]. npj Computational Materials, 2023, 9(1): 183.
